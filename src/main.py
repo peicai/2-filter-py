@@ -30,24 +30,12 @@ def process_data(args):
     # Read inputs
     input_h5ad = rawdata_h5ad_files[0]
     adata = sc.read_h5ad(input_h5ad)
-    print(adata)
-    print("adata.X:", None if adata.X is None else adata.X.shape)
-    print("layers:", list(adata.layers.keys()))
-    print("uns keys:", list(adata.uns.keys()))
+
     # Calculate percentage of mitochondrial genes per cell
     adata.var["mt"] = adata.var_names.str.startswith("MT-")
-    layer = None
 
-    if adata.X is None:
-        if "counts" in adata.layers:
-            layer = "counts"
-        elif len(adata.layers) > 0:
-            layer = list(adata.layers.keys())[0]
-        else:
-            raise ValueError("No expression matrix found in adata.X or adata.layers")
-    
     sc.pp.calculate_qc_metrics(
-        adata, qc_vars=["mt"],
+        adata, qc_vars=["mt"], layer="counts", 
         inplace=True, log1p=False, percent_top=None,
     )
 
