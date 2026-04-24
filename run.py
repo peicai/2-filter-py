@@ -21,6 +21,9 @@ def parse_args():
     # Stage-specific inputs
     parser.add_argument('--rawdata.h5ad', nargs='+', dest='rawdata_h5ad', required=True,
                        help='Input: rawdata.h5ad')
+    parser.add_argument('--filter_type', type=str, required=True,
+                       choices=["manual"],
+                       help='type of filtering: manual')   
 
     return parser.parse_args()
 
@@ -30,6 +33,7 @@ def main():
     print(f"Output directory: {args.output_dir}")
     print(f"Module name: {args.name}")
     print(f"rawdata.h5ad: {args.rawdata_h5ad}")
+    print(f"Filtering type: {args.filter_type}")
 
     # TODO: Implement your module logic
     # Process the data using main function
